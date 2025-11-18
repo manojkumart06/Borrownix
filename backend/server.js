@@ -1,12 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const { startReminderJob } = require('./jobs/reminderJob');
 
 const app = express();
 
-// Middleware
+// ----------------------
+// CORS Middleware
+// ----------------------
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
@@ -14,33 +15,34 @@ const allowedOrigins = [
   "https://borrownixx.onrender.com"
 ];
 
-app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);  // allow this origin
-    } else {
-      console.log("❌ Blocked by CORS:", origin);
-      callback(null, false);  // don't throw error, just block
-    }
-  },
-  credentials: true,
-  methods: ["GET","POST","PUT","DELETE","PATCH","OPTIONS"],
-  allowedHeaders: ["Content-Type","Authorization"]
-}));
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
 
-// Handle preflight OPTIONS requests globally
-app.options('*', cors({
-  origin: allowedOrigins,
-  credentials: true,
-  methods: ["GET","POST","PUT","DELETE","PATCH","OPTIONS"],
-  allowedHeaders: ["Content-Type","Authorization"]
-}));
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
 
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
+  // Handle preflight OPTIONS requests
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
+
+// ----------------------
+// Body Parser Middleware
+// ----------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// ----------------------
 // Routes
+// ----------------------
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/borrowers', require('./routes/borrowers'));
 app.use('/api/collections', require('./routes/collections'));
@@ -73,7 +75,9 @@ app.use((err, req, res, next) => {
   });
 });
 
-// MongoDB connection
+// ----------------------
+// MongoDB Connection
+// ----------------------
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI, {
@@ -87,18 +91,18 @@ const connectDB = async () => {
   }
 };
 
-// Start server
+// ----------------------
+// Start Server
+// ----------------------
 const PORT = process.env.PORT || 4000;
 
 const startServer = async () => {
   try {
-    // Connect to database
     await connectDB();
 
-    // Start reminder job
+    // Start any scheduled jobs
     startReminderJob();
 
-    // Start listening
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
       console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
