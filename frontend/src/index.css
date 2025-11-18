@@ -1,0 +1,144 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-to-r from-lime-400 to-green-500 text-slate-900 px-4 py-2 rounded-lg font-semibold shadow-lg shadow-lime-500/50 hover:shadow-xl hover:shadow-lime-500/60 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-offset-2 transition-all transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply bg-white/10 backdrop-blur-sm text-white border border-white/20 px-4 py-2 rounded-lg hover:bg-white/20 hover:border-lime-400/50 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-offset-2 transition-all;
+  }
+
+  .btn-danger {
+    @apply bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors shadow-lg shadow-red-500/30;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-400 transition-all;
+  }
+
+  .card {
+    @apply bg-slate-800/60 backdrop-blur-xl rounded-lg shadow-xl border border-lime-400/10 p-6;
+  }
+
+  .badge-pending {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800;
+  }
+
+  .badge-received {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800;
+  }
+
+  .badge-overdue {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800;
+  }
+
+  /* Custom gradient buttons */
+  .btn-gradient {
+    @apply bg-gradient-to-r from-brand-blue-600 to-brand-indigo-600 text-white px-6 py-3 rounded-xl font-semibold shadow-soft-lg hover:shadow-soft-xl transition-all duration-300 transform hover:-translate-y-0.5;
+  }
+
+  .btn-glass {
+    @apply bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 px-6 py-3 rounded-xl font-semibold hover:bg-white/20 hover:border-white/50 transition-all duration-300 transform hover:-translate-y-0.5;
+  }
+
+  /* Italic emphasis text */
+  .text-emphasis {
+    @apply font-serif italic font-medium;
+  }
+
+  /* Card styles with enhanced shadows */
+  .card-soft {
+    @apply bg-white rounded-2xl p-8 shadow-soft hover:shadow-soft-lg transition-all duration-300;
+  }
+
+  .card-interactive {
+    @apply bg-white rounded-2xl p-8 shadow-soft hover:shadow-soft-lg transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 cursor-pointer;
+  }
+
+  /* Gradient backgrounds */
+  .bg-hero-gradient {
+    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
+  }
+
+  .bg-section-gradient {
+    background: linear-gradient(135deg, #f9fafb 0%, #eff6ff 100%);
+  }
+
+  .bg-card-gradient {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  }
+}
+
+@layer utilities {
+  /* Animation delay utilities */
+  .delay-100 {
+    animation-delay: 0.1s;
+  }
+
+  .delay-150 {
+    animation-delay: 0.15s;
+  }
+
+  .delay-200 {
+    animation-delay: 0.2s;
+  }
+
+  .delay-300 {
+    animation-delay: 0.3s;
+  }
+
+  .delay-400 {
+    animation-delay: 0.4s;
+  }
+
+  .delay-500 {
+    animation-delay: 0.5s;
+  }
+
+  .delay-600 {
+    animation-delay: 0.6s;
+  }
+
+  /* Glass morphism */
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+
+  .glass-dark {
+    @apply bg-black/10 backdrop-blur-md border border-black/20;
+  }
+
+  /* Text gradients */
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-brand-blue-600 to-brand-indigo-600 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-purple {
+    @apply bg-gradient-to-r from-brand-indigo-600 to-brand-purple-600 bg-clip-text text-transparent;
+  }
+}
