@@ -7,7 +7,25 @@ const { startReminderJob } = require('./jobs/reminderJob');
 const app = express();
 
 // Middleware
-app.use(cors());
+// CORS Setup for Render Frontend
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://borrownixx.onrender.com"  // frontend domain
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log("Blocked by CORS:", origin);
+      callback(new Error("CORS not allowed"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
