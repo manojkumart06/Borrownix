@@ -11,24 +11,31 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
   "https://borrowniex.netlify.app",
-  "https://borrownixx.onrender.com"   // frontend
+  "https://borrownixx.onrender.com"
 ];
 
 app.use(cors({
   origin: function(origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
+      callback(null, true);  // allow this origin
     } else {
       console.log("❌ Blocked by CORS:", origin);
-      callback(new Error("CORS not allowed"));
+      callback(null, false);  // don't throw error, just block
     }
   },
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  methods: ["GET","POST","PUT","DELETE","PATCH","OPTIONS"],
+  allowedHeaders: ["Content-Type","Authorization"]
 }));
 
-app.options("*", cors());
+// Handle preflight OPTIONS requests globally
+app.options('*', cors({
+  origin: allowedOrigins,
+  credentials: true,
+  methods: ["GET","POST","PUT","DELETE","PATCH","OPTIONS"],
+  allowedHeaders: ["Content-Type","Authorization"]
+}));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
